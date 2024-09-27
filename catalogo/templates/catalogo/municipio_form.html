@@ -1,0 +1,13 @@
+{% extends 'catalogo/base_generic.html' %}
+
+{% block content %}
+    <h2>{% if object.pk %}Editar{% else %}Añadir{% endif %} Municipio</h2>
+
+    <form method="post" class="form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-submit">Guardar</button>
+    </form>
+
+    <a href="{% url 'municipio_list' %}" class="btn btn-back">Volver a la lista</a>
+{% endblock %}

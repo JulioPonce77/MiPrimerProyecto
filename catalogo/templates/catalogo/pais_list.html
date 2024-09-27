@@ -1,0 +1,43 @@
+{% extends 'catalogo/base_generic.html' %}
+
+{% block content %}
+    <h2>Lista de Países</h2>
+
+    <form method="get" action="{% url 'pais_list' %}">
+        <input type="text" name="query" placeholder="Buscar...">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <ul>
+        {% for pais in object_list %}
+            <li>
+                {{ pais.nombre }}
+                <a href="{% url 'pais_edit' pais.pk %}">Editar</a>
+                <a href="{% url 'pais_delete' pais.pk %}">Eliminar</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div>
+        <a href="{% url 'pais_add' %}">Añadir nuevo país</a>
+    </div>
+
+    <div>
+        <p>Paginas:</p>
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; primera</a>
+                <a href="?page={{ page_obj.previous_page_number }}">anterior</a>
+            {% endif %}
+
+            <span class="current">
+                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">siguiente</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}

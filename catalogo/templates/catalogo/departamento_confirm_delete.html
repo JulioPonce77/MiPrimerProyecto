@@ -1,0 +1,14 @@
+{% extends 'catalogo/base_generic.html' %}
+
+{% block content %}
+    <h2>Confirmar eliminación de Departamento</h2>
+    
+    <p>¿Está seguro de que desea eliminar el departamento "{{ object.nombre }}"?</p>
+    
+    <form method="post" class="delete-form">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-confirm">Confirmar</button>
+    </form>
+    
+    <a href="{% url 'departamento_list' %}" class="btn btn-cancel">Cancelar</a>
+{% endblock %}

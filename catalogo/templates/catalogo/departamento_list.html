@@ -1,0 +1,43 @@
+{% extends 'catalogo/base_generic.html' %}
+
+{% block content %}
+    <h2>Lista de Departamentos</h2>
+
+    <form method="get" action="{% url 'departamento_list' %}" class="search-form">
+        <input type="text" name="query" placeholder="Buscar..." class="search-input">
+        <button type="submit" class="search-button">Buscar</button>
+    </form>
+
+    <ul class="item-list">
+        {% for departamento in object_list %}
+            <li class="item">
+                {{ departamento.nombre }} - {{ departamento.pais.nombre }}
+                <a href="{% url 'departamento_edit' departamento.pk %}" class="btn btn-edit">Editar</a>
+                <a href="{% url 'departamento_delete' departamento.pk %}" class="btn btn-delete">Eliminar</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="pagination">
+        <p>Páginas:</p>
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; Primera</a>
+                <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+            {% endif %}
+
+            <span class="current">
+                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">Última &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+    <div class="add-link">
+        <a href="{% url 'departamento_add' %}" class="btn btn-add">Añadir nuevo departamento</a>
+    </div>
+{% endblock %}

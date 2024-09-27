@@ -1,0 +1,17 @@
+<!-- templates/registration/login.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar sesión</title>
+</head>
+<body>
+    <h2>Iniciar sesión</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Iniciar sesión</button>
+    </form>
+    <p>No tienes cuenta? <a href="{% url 'signup' %}">Regístrate aquí</a></p>
+</body>
+</html>

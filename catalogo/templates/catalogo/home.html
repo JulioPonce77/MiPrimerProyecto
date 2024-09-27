@@ -1,0 +1,26 @@
+<!-- catalogo/home.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+    <h1>Bienvenido al Catálogo</h1>
+    
+    {% if user.is_authenticated %}
+        <p>Hola, {{ user.username }}! <a href="{% url 'logout' %}">Cerrar sesión</a></p>
+    {% else %}
+        <p><a href="{% url 'login' %}">Iniciar sesión</a></p>
+    {% endif %}
+    
+    <nav>
+        <h2>Catálogo</h2>
+        <ul>
+            <li><a href="{% url 'pais_list' %}">Países</a></li>
+            <li><a href="{% url 'departamento_list' %}">Departamentos</a></li>
+            <li><a href="{% url 'municipio_list' %}">Municipios</a></li>
+        </ul>
+    </nav>
+</body>
+</html>
