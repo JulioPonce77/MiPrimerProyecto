@@ -5,10 +5,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate, login
+from .models import CustomUserAuthentication
 
-
-# Create your views here.
-
+# Vista para el inicio de sesión personalizado
 class CustomLoginView(LoginView):
     template_name = 'login.html'
     authentication_form = AuthenticationForm
@@ -17,14 +16,16 @@ class CustomLoginView(LoginView):
         login(self.request, form.get_user())
         return super().form_valid(form)
 
-
-class CustomLogin(APIView):
+# Vista para la autenticación mediante token
+class CustomAuthTokenView(APIView):
     def post(self, request):
-        username = request.data.get('username')
+        email = request.data.get('email')  # Cambia 'username' a 'email'
         password = request.data.get('password')
-        print(username)
+        
+        print(email)
         print(password)
-        user = authenticate(request, username=username, password=password)
+        
+        user = authenticate(request, email=email, password=password)  
         print(user)
 
         if user is not None:

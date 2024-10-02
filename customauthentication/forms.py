@@ -1,14 +1,24 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from .models import CustomUserAuthentication
 
+class CustomUserCreationForm(UserCreationForm):
+    class Meta:
+        model = CustomUserAuthentication
+        fields = ('email',)
 
-class CustomLoginForm(forms.Form):
-    username = forms.CharField(widget=forms.TextInput(attrs={
+    email = forms.EmailField(widget=forms.EmailInput(attrs={
         'class': 'form-control',
-        'placeholder': 'Nombre de usuario',
-        'id': 'username'
+        'placeholder': 'Correo electrónico',
+        'id': 'email'
     }))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={
         'class': 'form-control',
         'placeholder': 'Contraseña',
-        'id': 'password'
+        'id': 'password1'
+    }))
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Confirma tu contraseña',
+        'id': 'password2'
     }))

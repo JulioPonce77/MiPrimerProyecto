@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
-from catalogo.views import HomePageView, SignUpView  
+from catalogo.views import HomePageView, SignUpView, CustomAuthTokenView  # Importamos la vista de token
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,5 +28,8 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('signup/', SignUpView.as_view(), name='signup'),  
+
+    # Ruta para la autenticación por token
+    path('api-token-auth/', CustomAuthTokenView.as_view(), name='api_token_auth'),  # Autenticación con token
 ]
 

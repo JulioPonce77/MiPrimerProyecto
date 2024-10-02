@@ -4,16 +4,15 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView, T
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db.models import Q
 from .models import Pais, Departamento, Municipio
-from .forms import PaisForm, DepartamentoForm, MunicipioForm, SearchForm
+from .forms import PaisForm, DepartamentoForm, MunicipioForm
 from django.contrib.auth.forms import UserCreationForm
-from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
+from rest_framework.response import Response
+from rest_framework import status
+from django.contrib.auth import authenticate
 
-class SignUpView(CreateView):
-    form_class = UserCreationForm
-    template_name = 'registration/signup.html'  
-    success_url = reverse_lazy('login')  
-
+# Home page view
 class HomePageView(TemplateView):
     template_name = 'catalogo/home.html'  
 
@@ -112,3 +111,22 @@ class MunicipioDeleteView(PermissionRequiredMixin, DeleteView):
     template_name = 'catalogo/municipio_confirm_delete.html'
     success_url = reverse_lazy('municipio_list')
     permission_required = 'catalogo.delete_municipio'
+
+# Sign Up View
+class SignUpView(CreateView):
+    form_class = UserCreationForm  
+    template_name = 'registration/signup.html'  # Asegúrate de que el template existe
+    success_url = reverse_lazy('login')  
+
+# Custom Auth Token View
+class CustomAuthTokenView(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+        email = request.data.get('email')  # Cambia 'username' a 'email'
+        password = request.data.get('password')
+        
+        user = authenticate(username=email, password=password)
+        if user is not None:
+            token, created = Token.objects.get_or_create(user=user)
+            return Response({'token': token.key})
+        else:
+            return Response({'error': 'Credenciales inválidas'}, status=status.HTTP_401_UNAUTHORIZED)
