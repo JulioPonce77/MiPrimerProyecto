@@ -1,10 +1,8 @@
-#urls para el modulo de customauthentication
-
 from django.urls import path
-from .views import SignUpView, CustomAuthTokenView  # Asegúrate de que la vista esté importada
+from .views import SignUpView, CustomLoginView, CustomLogoutView  
 
 urlpatterns = [
     path('signup/', SignUpView.as_view(), name='signup'),
-    path('api-token-auth/', CustomAuthTokenView.as_view(), name='api_token_auth'),  # Esta línea se queda aquí
+    path('login/', CustomLoginView.as_view(), name='login'),   
+    path('api-token-auth/', CustomAuthTokenView.as_view(), name='api_token_auth'),  
 ]
-

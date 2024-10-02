@@ -12,7 +12,6 @@ class Pais(models.Model):
         return self.nombre
 
 
-
 class Departamento(models.Model):
     nombre = models.CharField(max_length=50)
     pais = models.ForeignKey(Pais, on_delete=models.PROTECT)
@@ -29,7 +28,7 @@ class Departamento(models.Model):
 
 class Municipio(models.Model):
     nombre = models.CharField(max_length=50)
-    departamento = models.ForeignKey(Departamento, on_delete=models.PROTECT)  # Asegúrate de tener este campo
+    departamento = models.ForeignKey(Departamento, on_delete=models.PROTECT)
     codigo = models.CharField(max_length=4, null=True, blank=True)
     active = models.BooleanField(default=True, verbose_name='activo')
 

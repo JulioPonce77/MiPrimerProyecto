@@ -118,7 +118,10 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',  # Añade esta línea para indicar la ubicación de tus archivos estáticos
+]
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -127,6 +130,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'customauthentication.CustomUserAuthentication'
 
 # Redirección después del login/logout
+LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
-LOGIN_URL = 'auth/login'
-LOGOUT_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'login'

@@ -1,26 +1,38 @@
-<!-- catalogo/home.html -->
+
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Inicio</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Bienvenido al Catálogo</h1>
-    
-    {% if user.is_authenticated %}
-        <p>Hola, {{ user.username }}! <a href="{% url 'logout' %}">Cerrar sesión</a></p>
-    {% else %}
-        <p><a href="{% url 'login' %}">Iniciar sesión</a></p>
-    {% endif %}
-    
-    <nav>
+    <div class="container">
+        <h1>Bienvenido al Catálogo</h1>
+        {% if user.is_authenticated %}
+            <p>Hola, {{ user.email }}!</p>
+            <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Cerrar sesión</button>
+            </form>
+        {% else %}
+            <p><a href="{% url 'login' %}">Iniciar sesión</a></p>
+        {% endif %}
+        
         <h2>Catálogo</h2>
-        <ul>
-            <li><a href="{% url 'pais_list' %}">Países</a></li>
-            <li><a href="{% url 'departamento_list' %}">Departamentos</a></li>
-            <li><a href="{% url 'municipio_list' %}">Municipios</a></li>
-        </ul>
-    </nav>
+        <nav>
+            <ul>
+                <li><a href="{% url 'pais_list' %}">Países</a></li>
+                <li><a href="{% url 'departamento_list' %}">Departamentos</a></li>
+                <li><a href="{% url 'municipio_list' %}">Municipios</a></li>
+            </ul>
+        </nav>
+    </div>
 </body>
 </html>
+
+
+
+
