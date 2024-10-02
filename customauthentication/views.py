@@ -1,3 +1,6 @@
+from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView
+from .forms import CustomUserCreationForm  
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import AuthenticationForm
 from rest_framework.views import APIView
@@ -7,25 +10,25 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate, login
 from .models import CustomUserAuthentication
 
-# Vista para el inicio de sesión personalizado
+
 class CustomLoginView(LoginView):
-    template_name = 'login.html'
+    template_name = 'registration/login.html'  
     authentication_form = AuthenticationForm
 
     def form_valid(self, form):
         login(self.request, form.get_user())
         return super().form_valid(form)
 
-# Vista para la autenticación mediante token
+
 class CustomAuthTokenView(APIView):
     def post(self, request):
-        email = request.data.get('email')  # Cambia 'username' a 'email'
+        email = request.data.get('email')  
         password = request.data.get('password')
-        
+
         print(email)
         print(password)
-        
-        user = authenticate(request, email=email, password=password)  
+
+        user = authenticate(request, email=email, password=password)
         print(user)
 
         if user is not None:
@@ -34,3 +37,10 @@ class CustomAuthTokenView(APIView):
             return Response({'token': token.key})
         else:
             return Response({'error': 'Credenciales inválidas'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class SignUpView(CreateView):
+    form_class = CustomUserCreationForm  
+    template_name = 'registration/signup.html' 
+    success_url = reverse_lazy('login')  
+    

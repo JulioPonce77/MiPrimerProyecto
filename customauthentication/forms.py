@@ -1,24 +1,20 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import CustomUserAuthentication
+from .models import CustomUserAuthentication  # Importa el modelo aquí
 
 class CustomUserCreationForm(UserCreationForm):
+    email = forms.EmailField(
+        required=True,
+        help_text='Requerido. Ingrese un correo electrónico válido.'
+    )
+
     class Meta:
         model = CustomUserAuthentication
-        fields = ('email',)
+        fields = ('email', 'password1', 'password2')
 
-    email = forms.EmailField(widget=forms.EmailInput(attrs={
-        'class': 'form-control',
-        'placeholder': 'Correo electrónico',
-        'id': 'email'
-    }))
-    password1 = forms.CharField(widget=forms.PasswordInput(attrs={
-        'class': 'form-control',
-        'placeholder': 'Contraseña',
-        'id': 'password1'
-    }))
-    password2 = forms.CharField(widget=forms.PasswordInput(attrs={
-        'class': 'form-control',
-        'placeholder': 'Confirma tu contraseña',
-        'id': 'password2'
-    }))
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.email = self.cleaned_data['email']
+        if commit:
+            user.save()
+        return user
