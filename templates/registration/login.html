@@ -1,20 +1,79 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Iniciar sesión</title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}"> <!-- Verifica que la ruta sea correcta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+        }
+        .form-container {
+            max-width: 400px;
+            width: 100%;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .alert {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Iniciar sesión</h2>
-        <form method="post">
+    <div class="form-container">
+        <div class="header">
+            <h1>Iniciar Sesión</h1>
+        </div>
+        <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="button">Iniciar sesión</button>
+            <div class="form-group">
+                <label for="username">Correo Electrónico</label>
+                <input type="text" name="username" class="form-control" placeholder="Ingrese su correo" value="{{ form.username.value|default_if_none:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" name="password" class="form-control" placeholder="Ingrese su contraseña">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
         </form>
-        <p>No tienes cuenta? <a href="{% url 'signup' %}">Regístrate aquí</a></p>
+        <div>
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <p class="text-center mt-3">¿No tienes cuenta? <a href="{% url 'signup' %}">Regístrate aquí</a></p>
     </div>
 </body>
 </html>

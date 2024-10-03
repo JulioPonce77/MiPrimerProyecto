@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import CustomUserAuthentication  # Importa el modelo aquí
+from django.contrib.auth.forms import AuthenticationForm
+from .models import CustomUserAuthentication
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(
@@ -18,3 +19,15 @@ class CustomUserCreationForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+class CustomLoginForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Ingrese su correo'
+        })
+        self.fields['password'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Ingrese su contraseña'
+        })

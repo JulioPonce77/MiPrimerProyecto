@@ -1,18 +1,16 @@
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from django.contrib.auth.views import LoginView, LogoutView
-from .forms import CustomUserCreationForm  
-from django.contrib.auth.forms import AuthenticationForm
+from .forms import CustomUserCreationForm, CustomLoginForm  # Asegúrate de importar el CustomLoginForm
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate, login
-from .models import CustomUserAuthentication
 
 class CustomLoginView(LoginView):
     template_name = 'registration/login.html'  
-    authentication_form = AuthenticationForm
+    authentication_form = CustomLoginForm  # Usa el formulario de inicio de sesión personalizado
 
     def form_valid(self, form):
         login(self.request, form.get_user())
@@ -39,3 +37,4 @@ class SignUpView(CreateView):
     form_class = CustomUserCreationForm  
     template_name = 'registration/signup.html' 
     success_url = reverse_lazy('login')  
+
