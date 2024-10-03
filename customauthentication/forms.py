@@ -1,6 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import CustomUserAuthentication
 
 class CustomUserCreationForm(UserCreationForm):
@@ -12,6 +11,21 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUserAuthentication
         fields = ('email', 'password1', 'password2')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['email'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Ingrese su correo'
+        })
+        self.fields['password1'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Ingrese su contraseña'
+        })
+        self.fields['password2'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Confirme su contraseña'
+        })
 
     def save(self, commit=True):
         user = super().save(commit=False)
