@@ -1,38 +1,77 @@
-
-{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página de Inicio</title>
+    <title>Bienvenido al Catálogo</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .nav {
+            margin: 20px 0;
+        }
+        .nav a {
+            margin: 0 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .nav a:hover {
+            text-decoration: underline;
+        }
+        .welcome {
+            margin-top: 50px;
+            text-align: center;
+        }
+        .btn {
+            margin-top: 20px;
+        }
+        .cat-image {
+            max-width: 50%;
+            height: auto;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
+    <div class="header">
         <h1>Bienvenido al Catálogo</h1>
         {% if user.is_authenticated %}
             <p>Hola, {{ user.email }}!</p>
-            <form method="post" action="{% url 'logout' %}" style="display: inline;">
+            <form method="post" action="{% url 'logout' %}" style="display:inline;">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-danger">Cerrar sesión</button>
             </form>
         {% else %}
-            <p><a href="{% url 'login' %}">Iniciar sesión</a></p>
+            <p><a href="{% url 'login' %}" class="btn btn-primary">Iniciar sesión</a></p>
         {% endif %}
-        
-        <h2>Catálogo</h2>
-        <nav>
-            <ul>
+    </div>
+    <div class="container">
+        <div class="nav">
+            <h2>Catálogo</h2>
+            <ul class="list-unstyled">
                 <li><a href="{% url 'pais_list' %}">Países</a></li>
                 <li><a href="{% url 'departamento_list' %}">Departamentos</a></li>
                 <li><a href="{% url 'municipio_list' %}">Municipios</a></li>
             </ul>
-        </nav>
+        </div>
+        <div class="welcome">
+            <h3>Explora nuestro catálogo</h3>
+            <p>Descubre y gestiona información sobre países, departamentos y municipios.</p>
+            <img src="https://images.pexels.com/photos/6220559/pexels-photo-6220559.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Mapa" class="cat-image">
+        </div>
     </div>
 </body>
 </html>
-
 
 
 
