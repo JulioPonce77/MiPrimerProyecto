@@ -1,29 +1,33 @@
 {% extends 'catalogo/base_generic.html' %}
 
-{% block content %}
-    <h2>Lista de Municipios</h2>
+{% block title %}Lista de Municipios{% endblock %}
 
-    <form method="get" action="{% url 'municipio_list' %}" class="search-form">
-        <input type="text" name="query" placeholder="Buscar..." class="search-input">
-        <button type="submit" class="search-button">Buscar</button>
+{% block content %}
+    <h2 class="mb-4">Lista de Municipios</h2>
+
+    <form method="get" action="{% url 'municipio_list' %}" class="mb-4">
+        <input type="text" name="query" placeholder="Buscar..." class="form-control">
+        <button type="submit" class="btn btn-primary mt-2">Buscar</button>
     </form>
 
-    <ul class="item-list">
+    <ul class="list-group mb-4">
         {% for municipio in object_list %}
-            <li class="item">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
                 {{ municipio.nombre }} - {{ municipio.departamento.nombre }}
-                <a href="{% url 'municipio_edit' municipio.pk %}" class="btn btn-edit">Editar</a>
-                <a href="{% url 'municipio_delete' municipio.pk %}" class="btn btn-delete">Eliminar</a>
+                <span>
+                    <a href="{% url 'municipio_edit' municipio.pk %}" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="{% url 'municipio_delete' municipio.pk %}" class="btn btn-danger btn-sm">Eliminar</a>
+                </span>
             </li>
         {% endfor %}
     </ul>
 
-    <div class="pagination">
+    <div class="pagination mb-4">
         <p>Páginas:</p>
         <span class="step-links">
             {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; Primera</a>
-                <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                <a class="btn btn-link" href="?page=1">&laquo; Primera</a>
+                <a class="btn btn-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
             {% endif %}
 
             <span class="current">
@@ -31,13 +35,13 @@
             </span>
 
             {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">Última &raquo;</a>
+                <a class="btn btn-link" href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+                <a class="btn btn-link" href="?page={{ page_obj.paginator.num_pages }}">Última &raquo;</a>
             {% endif %}
         </span>
     </div>
 
-    <div class="add-link">
-        <a href="{% url 'municipio_add' %}" class="btn btn-add">Añadir nuevo municipio</a>
+    <div>
+        <a href="{% url 'municipio_add' %}" class="btn btn-success">Añadir nuevo municipio</a>
     </div>
 {% endblock %}
